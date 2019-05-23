@@ -11,8 +11,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import object.Applicant;
+import object.Employer;
 
 public class EmployerInfoController {
 	
@@ -20,40 +23,34 @@ public class EmployerInfoController {
     		observableArrayList("Game Developement", "Server Programming", "Website Design", "Frontend", "Backend", "SAAS");
     
     ObservableList<String> prefSalList = FXCollections.
-    		observableArrayList("1000 - 1500", "1500 - 2000", "2000 - 2500", "2500 - 3000", "3000 - 3500", "4000 >");
+    		observableArrayList("1000 - 1800", "1800 - 2800", "2800 - 3500", "3500 >");
     
-    ObservableList<String> prefCountryList = FXCollections.
-    		observableArrayList("Web Solutions","Finland", "Sweden", "Norway", "Denmark", "USA", "Great Britain");
-    
-    ObservableList<String> prefWorkList = FXCollections.
-    		observableArrayList("Part Time", "Full Time", "Projects", "Paid/Internship");
+    ObservableList<String> experienceList = FXCollections.
+    		observableArrayList("Junior, 0-5 years","Intermediate, 5-10", "Senior, 10 +");
     
     ObservableList<String> progList = FXCollections.
     		observableArrayList("Java", "Python", "HTML/CSS/JavaScript", "C++");
     
-    @FXML
-	private TextField name;
+    ObservableList<String> skillList = FXCollections.
+    		observableArrayList("Beginner", "Intermediate", "Expert");
     
     @FXML
-	private TextField email;
+	private TextField nameField;
     
     @FXML
-	private TextField address;
+	private TextField emailField;
     
     @FXML
-	private TextField phone;
+	private TextField userNameField;
     
     @FXML
-    private ChoiceBox favProgBox;
+	private TextField passwordField;
     
     @FXML
-    private ChoiceBox prefSalBox;
+    private ChoiceBox progAreaBox;
     
     @FXML
-    private ChoiceBox prefCountryBox;
-    
-    @FXML
-    private ChoiceBox prefWorkBox;
+    private ChoiceBox experienceBox;
     
     @FXML
     private ChoiceBox progLang1;
@@ -62,27 +59,24 @@ public class EmployerInfoController {
     private ChoiceBox progLang2;
     
     @FXML
-    private ChoiceBox progLang3;
+	private TextField approxSalaryField;
     
     @FXML
-    private ChoiceBox progLang4;
+   	private TextArea descriptionField;
+    
 
     
     @FXML
     private void initialize() {
-    	favProgBox.setItems(favAreaList);
-    	prefSalBox.setItems(prefSalList);
-    	prefCountryBox.setItems(prefCountryList);
-    	prefWorkBox.setItems(prefWorkList);
+    	progAreaBox.setItems(favAreaList);
+    	experienceBox.setItems(experienceList);
     	progLang1.setItems(progList);
     	progLang2.setItems(progList);
-    	progLang3.setItems(progList);
-    	progLang4.setItems(progList);
     	
 
     }
     
-    public void changeScreenButtonPushed(ActionEvent event) throws IOException {
+    /*public void changeScreenButtonPushed(ActionEvent event) throws IOException {
         Parent tableViewParent = FXMLLoader.load(getClass().getResource(".fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
         
@@ -91,6 +85,35 @@ public class EmployerInfoController {
         
         window.setScene(tableViewScene);
         window.show();
-    }
+    }*/
+    
+    public void createEmployer(ActionEvent event) throws IOException {
+		String name = nameField.getText();
+		String email = emailField.getText();
+		String user = userNameField.getText();
+		String password = passwordField.getText();
+		String favProg = (String) progAreaBox.getValue(); 
+	    String experience = (String) experienceBox.getValue();
+	    String prog1 = (String) progLang1.getValue();
+	    String prog2 = (String) progLang2.getValue();
+	    String salary = approxSalaryField.getText();
+	    String companyDescription = descriptionField.getText();
+
+	    
+		Employer employer1 = new Employer(name, email, user, password, favProg, experience,
+				 prog1, prog2, salary, companyDescription);
+		
+		System.out.println(employer1);
+		employer1.showDetails();
+		
+		Parent tableViewParent = FXMLLoader.load(getClass().getResource("/app/EmployerAppDesign.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
+        
+        //This line gets the Stage information
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        
+        window.setScene(tableViewScene);
+        window.show();
+	}
 
 }
